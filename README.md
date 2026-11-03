@@ -1,6 +1,6 @@
 # Glass TV Launcher
 
-Minimalistischer Kotlin-/Compose-Launcher für Fire TV ab Android 11 (API 30). Verbindliche Spezifikation: [GLASS_TV_PROJECT.md](GLASS_TV_PROJECT.md).
+Minimalistischer Kotlin-/Compose-Launcher für Fire TV ab Android 11 (API 30). Verbindliche Spezifikation: [Architektur](docs/ARCHITECTURE.md).
 
 Implementiert sind App-Erkennung, eine gemeinsame milchige App-Leiste, Fernbedienungsfokus und langes OK, Verschieben/Anheften/Ausblenden, System-App-Informationen und bestätigte Deinstallation, Quick/Full Settings, persistente Einstellungen, vier originale Hintergrund-Szenen, lokale Bild-/MP4-Imports, Kalender und Konfigurationssicherung. App-Suche öffnet über die Menü-Taste oder Apps verwalten. Video pausiert mit Decoderfreigabe und setzt an der gespeicherten Position fort. Der Visualizer ist ausdrücklich eine Simulation. Wetter bleibt offline. Ein optionaler Spotify-MediaSession-Adapter mit separatem Albumcover, weichgezeichnetem normalem Wallpaper und action-geprüften Musiksteuerungen ist implementiert; echte Spotify-Steuerung und Albumcover sind mit0.6.1 auf diesem Fire TV geprüft. Details und Web-API-Alternative: [Spotify](docs/SPOTIFY.md).
 
@@ -11,8 +11,8 @@ Getestete Werkzeugversionen: JDK 25, Gradle Wrapper 9.3.1, AGP 9.1.1, Kotlin 2.2
 Repository klonen und Android SDK installieren. Der SDK-Pfad unten ist ein portables Beispiel; bei einer anderen Installation anpassen. Der erste Build benötigt Zugriff auf die offiziellen Gradle-/Maven-/Google-Repositories.
 
 ```sh
-git clone https://github.com/elistu82-code/glass-tv-launcher.git
-cd glass-tv-launcher
+git clone https://github.com/elistu82-code/glass-tv.git
+cd glass-tv
 ```
 
 Für Bash und Fish:
@@ -26,7 +26,7 @@ Reguläre APK: `app/build/outputs/apk/debug/app-debug.apk`. GitHub Actions führ
 
 ## Aktueller Nachweis
 
-Version0.6.5 optimiert Fokus-State-Lesezugriffe und den Release-Build (R8), ohne das Design zu vereinfachen. Das Spotify-Cover ist per D-pad fokussierbar und öffnet Spotify ohne Wiedergabebefehl. Kontrollierte Scope-Arbeit und reale Release-Framezeiten/PSS sind verbessert; Warmstart und60FPS bleiben bewusst differenziert bewertet. [Messwerte/Prüfgrenzen](docs/PERFORMANCE_065.md), [UI-Sounds](docs/UI_SOUNDS.md), [Spotify](docs/SPOTIFY.md).
+Version0.6.5 optimiert Fokus-State-Lesezugriffe und den Release-Build (R8), ohne das Design zu vereinfachen. Das Spotify-Cover ist per D-pad fokussierbar und öffnet Spotify ohne Wiedergabebefehl. Kontrollierte Scope-Arbeit und reale Release-Framezeiten/PSS sind verbessert; Warmstart und60FPS bleiben bewusst differenziert bewertet. Performance-Messwerte (interne Entwicklungsdokumentation), [UI-Sounds](docs/UI_SOUNDS.md), [Spotify](docs/SPOTIFY.md).
 
 Home on Fire wurde vom Benutzer bereits auf dem echten Gerät aktiviert und bleibt unverändert. Emulator-HOME ist davon getrennt: [Home-Details](docs/HOME_REDIRECT.md).
 
@@ -36,7 +36,22 @@ Aktuelle Debug-APK nach einem Build: `app/build/outputs/apk/debug/app-debug.apk`
 
 Ohne System-Dateiauswahl funktioniert der private Import-/Export-Fallback mit `tools/transfer.py`. Wichtig: Exportierte Backups anschließend tatsächlich auf den Rechner kopieren, da die App-Ordner bei Deinstallation gelöscht werden. [Anleitung und Gerätenachweise](docs/FILE_TRANSFER.md). [Späterer QR-/Einmalcode-Netzwerktransfer](docs/NETWORK_IMPORT_PLAN.md) ist geplant, noch nicht aktiv.
 
-## Installation auf Fire TV / Android TV
+## Installation / Download
+
+**[Download Glass TV v0.6.5 Beta (APK)](https://github.com/elistu82-code/glass-tv/releases/download/v0.6.5/glass-tv-v0.6.5.apk)**
+
+The APK is available directly from the link above. You do **not** need to build the source code to install Glass TV.
+
+1. Download the APK to your Android TV / Fire TV device, or transfer it from your computer.
+2. Enable installation from the app used to open the APK, if the TV prompts you.
+3. Open the APK and follow the installation dialog.
+4. Launch **Glass TV** from your apps. It does not automatically replace your current home screen.
+
+**Requirements:** Android 11 (API 30) or later. Device compatibility varies; this is a beta release. If an older build with a different signing certificate is already installed, you may need to back up its settings and uninstall it first.
+
+[All releases](https://github.com/elistu82-code/glass-tv/releases)
+
+## Installation auf Fire TV / Android TV (ADB / development)
 
 Auf einem eigenen, bereits für ADB autorisierten Gerät installieren. `FIRE_TV_IP:ADB_PORT` durch den eigenen ADB-Endpunkt ersetzen; für einen Emulator dessen Gerätekennung verwenden. ADB verwendet ausschließlich den bestehenden Server mit `/usr/bin/adb`; keinen zweiten Server starten und den vorhandenen nicht unnötig beenden.
 
@@ -49,7 +64,7 @@ Glass ändert bei der Installation keine HOME-Zuordnung, Amazon-Systempakete ode
 
 Debug-APKs sind Entwicklungsversionen. Lokale und CI-Builds können unterschiedliche Debug-Signaturen haben. Vor einer erforderlichen Deinstallation Einstellungen und eigene Dateien exportieren und auf einen Rechner kopieren. Private Signaturschlüssel gehören niemals ins Repository.
 
-Weitere Dokumentation: [Architektur](docs/ARCHITECTURE.md), [Design](docs/DESIGN.md), [Aufgaben und Grenzen](docs/TASKS.md), [Sicherheit](docs/SECURITY.md), [Umgebung](docs/ENVIRONMENT.md).
+Weitere Dokumentation: [Architektur](docs/ARCHITECTURE.md), [Design](docs/DESIGN.md), [Aufgaben und Grenzen](docs/TASKS.md), [Sicherheit](docs/SECURITY.md).
 
 ## Bedienung
 
@@ -78,6 +93,6 @@ Keine privaten Konfigurationen, `.env`-Dateien, Zugangsdaten, Keystores, Geräte
 
 ## Lizenzen und Assets
 
-Eine Projektlizenz ist noch nicht festgelegt; die öffentliche Open-Source-Freigabe setzt diese Entscheidung voraus. Die bereits dokumentierten eigenen UI-Sounds bleiben CC0-1.0. Asset-Herkunft, Gradle-Lizenz und Hinweise zu zur Laufzeit angezeigten fremden Inhalten stehen in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+Für den eigenen Projektcode wird derzeit keine allgemeine Wiederverwendungslizenz erteilt. Die Sichtbarkeit auf GitHub ist keine Erlaubnis, den Code beliebig weiterzuverbreiten. Die bereits dokumentierten eigenen UI-Sounds bleiben CC0-1.0. Asset-Herkunft, Gradle-Lizenz und Hinweise zu zur Laufzeit angezeigten fremden Inhalten stehen in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 CI erzeugt einen unsignierten optimierten Release-Build samt R8-Mapping. Lokal mit `:app:assembleRelease` bauen; die erzeugte Release-APK benötigt vor einer Installation eine eigene lokale Signierung. Kein Produktions-Schlüssel oder offizieller Store-Release. Android/media-Dateiaustausch erhält ADB-Transfer auch ohne run-as.
