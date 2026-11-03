@@ -1,0 +1,7 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <instrumentation android:name="androidx.test.runner.AndroidJUnitRunner"
+        android:targetPackage="de.glasslauncher.tv" />
+    <!-- Self-targeted shell-only probe: works against the untouched non-debuggable release. -->
+    <instrumentation android:name="de.glasslauncher.tv.testing.ReleaseProbe"
+        android:targetPackage="de.glasslauncher.tv.test" />
+</manifest>

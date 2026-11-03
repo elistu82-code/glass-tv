@@ -1,0 +1,20 @@
+# Architecture
+
+`MainActivity` owns document pickers and external system intents. `LauncherViewModel` owns observable installed apps and configuration, performs discovery and disk operations on IO, and reuses a single-flight catalogue on resume; package broadcasts invalidate it. `data/` contains discovery, atomic config storage and validated JSON codec. `core/Models.kt` is the shared UI contract.
+
+`ui/LauncherScreen` is one state-driven composition: home, quick popup, full settings, calendar and app context menu. Settings never replace the Activity. Focus and Back belong to the overlay state; reorder is transactional. Glass and animation tokens are centralized under `ui/`.
+
+`wallpaper/` imports local documents with strict byte/dimension limits. Images are sampled to TV resolution. Private files contain no external paths or credentials. Scenes are original generated gradients/shapes. Cached still/blur images avoid realtime GPU blur on API 30. A muted hardware-backed MediaPlayer is attached only while RESUMED and outside full settings; removing it releases the decoder and Surface.
+
+No permanent foreground service or wake lock keeps the launcher warm. The optional notification listener requires manual consent; the launcher never grants it. Home on Fire is already configured externally by the user; preserve it. MainActivity stays singleTask and reuses its ViewModel/focus state on return.
+
+Version0.3: `media/SpotifySessionAdapter` kapselt action-geprüfte Spotify-MediaController und callbackbasierte Zustände; MainActivity startet/stoppt ihn am sichtbaren Lebenszyklus. `GlassMediaListener` ist optional, systemgeschützt und wertet keine Notification-Inhalte aus. UI erhält immutable `SpotifyState`, WallpaperEngine ein optionales Cover, ohne persistente Wallpaper-Konfiguration zu ändern. SystemAppPolicy filtert nur exakte technische Systempakete; ConfigCodec sichert explizite Sichtbarkeits-Overrides. LaunchTransition zeichnet unabhängig vom Docklayout; Pause vor Intent-Dispatch cancelt den Übergang.
+
+0.3.1: `LaunchFrame` berechnet gemeinsame Geometrie für Übergang und konservative Hintergrund-Aussparung ausschließlich in der Zeichenphase. Unter der vollständig deckenden Innenfläche entfallen Hintergrund-Draws; Kanten/transparenter Beginn bleiben intakt. Kein Screenshot-Cache, zusätzlicher Decoder oder neuer Vollbild-Offscreen-Buffer.
+
+0.3.2: `SpotifySessions` trennt freigabepflichtige, exakt paketgefilterte Android-Discovery von Controller-Callbacks und Transport. Der öffentliche Context-Konstruktor verwendet immer AndroidSpotifySessions. Nur interne Instrumentierung liefert eine eigene reale MediaSession, ohne Produktions-Allowlist/Manifest/Permissions zu lockern. Kalender verwendet dieselbe statische Blur-/Video-Pause-Policy wie Full Settings; kurze LazyRows zentrieren, Überlauf scrollt.
+
+0.4.0: calendar/CalendarData kapselt Datumsschritte, Monatsraster und flüchtige Demo-Einträge. CalendarOverlay erhält Datum/Einträge als Eingaben und verwaltet Tages-/Agenda-Fokus explizit; kein Kalender-/Netzwerkzugriff. LauncherScreen merkt Kalender-Schließen separat für Uhrfokus. Deaktivierter HomeEntry mit MAIN/HOME/DEFAULT, singleTask-MainActivity und HOME-Request-Zähler bereiten Re-entry vor. HomeResolver wählt ausschließlich andere HOME-Komponenten zur Rückkehr. Emulator-Test unterscheidet Rollenhalter, tatsächliche Intent-Auflösung und expliziten Entry; keine HOME-Berechtigung/Accessibility im Launcher ergänzt.
+
+
+V0.5: `RefreshingCatalog` preserves invalidations racing a load; private atomic metadata snapshot never contains visibility settings or Drawables. `AppIcons` rasterizes on IO with a bounded6MiB LRU; dock and launch share bitmaps. `WallpaperMemory` retains one normal/blur pair; normal image publishes before optional blur. No eager orphan cleanup/media discovery on startup. Focus tint state is read in draw phase. Optional MediaSession starts only after UI presentation and when enabled. File exchange supports private debug storage plus app-specific Android/media for non-debuggable APKs; imports always validate/copy privately.
