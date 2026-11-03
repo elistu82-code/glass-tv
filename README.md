@@ -1,5 +1,7 @@
 # Glass TV Launcher
 
+[![Download APK](https://img.shields.io/badge/Download-Glass%20TV%20APK%20v0.6.5-2ea44f?style=for-the-badge&logo=android&logoColor=white)](https://github.com/elistu82-code/glass-tv/releases/download/v0.6.5/glass-tv-v0.6.5.apk)
+
 Minimalistischer Kotlin-/Compose-Launcher für Fire TV ab Android 11 (API 30). Verbindliche Spezifikation: [Architektur](docs/ARCHITECTURE.md).
 
 Implementiert sind App-Erkennung, eine gemeinsame milchige App-Leiste, Fernbedienungsfokus und langes OK, Verschieben/Anheften/Ausblenden, System-App-Informationen und bestätigte Deinstallation, Quick/Full Settings, persistente Einstellungen, vier originale Hintergrund-Szenen, lokale Bild-/MP4-Imports, Kalender und Konfigurationssicherung. App-Suche öffnet über die Menü-Taste oder Apps verwalten. Video pausiert mit Decoderfreigabe und setzt an der gespeicherten Position fort. Der Visualizer ist ausdrücklich eine Simulation. Wetter bleibt offline. Ein optionaler Spotify-MediaSession-Adapter mit separatem Albumcover, weichgezeichnetem normalem Wallpaper und action-geprüften Musiksteuerungen ist implementiert; echte Spotify-Steuerung und Albumcover sind mit0.6.1 auf diesem Fire TV geprüft. Details und Web-API-Alternative: [Spotify](docs/SPOTIFY.md).
@@ -37,6 +39,9 @@ Aktuelle Debug-APK nach einem Build: `app/build/outputs/apk/debug/app-debug.apk`
 Ohne System-Dateiauswahl funktioniert der private Import-/Export-Fallback mit `tools/transfer.py`. Wichtig: Exportierte Backups anschließend tatsächlich auf den Rechner kopieren, da die App-Ordner bei Deinstallation gelöscht werden. [Anleitung und Gerätenachweise](docs/FILE_TRANSFER.md). [Späterer QR-/Einmalcode-Netzwerktransfer](docs/NETWORK_IMPORT_PLAN.md) ist geplant, noch nicht aktiv.
 
 ## Installation / Download
+
+[![Download APK](https://img.shields.io/badge/Download-Glass%20TV%20APK%20v0.6.5-2ea44f?style=for-the-badge&logo=android&logoColor=white)](https://github.com/elistu82-code/glass-tv/releases/download/v0.6.5/glass-tv-v0.6.5.apk)
+
 
 **[Download Glass TV v0.6.5 Beta (APK)](https://github.com/elistu82-code/glass-tv/releases/download/v0.6.5/glass-tv-v0.6.5.apk)**
 
